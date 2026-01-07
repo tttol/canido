@@ -1,5 +1,5 @@
 [package]
-name = "iam-policy-viewer"
+name = "canido"
 version = "0.1.0"
 edition = "2021"
 authors = ["Toru Takahashi <tkhstol.929@gmail.com>"]
@@ -12,7 +12,7 @@ keywords = ["aws", "iam", "cli", "security", "policy"]
 categories = ["command-line-utilities"]
 
 [dependencies]
-aws-config = { version = "1.5", features = ["behavior-version-latest"] }
+aws-config = { version = "1.5", features = ["behavior-version-latest", "sso", "credentials-process"] }
 aws-sdk-sts = "1.54"
 aws-sdk-iam = "1.59"
 tokio = { version = "1", features = ["full"] }

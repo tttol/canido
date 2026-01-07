@@ -6,7 +6,7 @@ use colored::*;
 
 /// A CLI tool to view IAM policies attached to the current AWS role
 #[derive(Parser, Debug)]
-#[command(name = "iam-policy-viewer")]
+#[command(name = "canido")]
 #[command(author, version, about, long_about = None)]
 struct Args {
     /// Show output in JSON format
@@ -44,7 +44,7 @@ async fn main() -> Result<()> {
 
 /// Extract the role name from current AWS credentials
 async fn get_current_role_name(sts_client: &StsClient) -> Result<String> {
-    println!("{}", "--- Checking credentials ---".dimmed());
+    println!("{}", "--- Checking AWS credentials ---".dimmed());
 
     let identity = sts_client
         .get_caller_identity()
@@ -243,9 +243,7 @@ async fn get_inline_policy_document(
         .await
         .context("Failed to get inline policy")?;
 
-    let document = response
-        .policy_document()
-        .context("Failed to get policy document")?;
+    let document = response.policy_document();
 
     // The document is URL-encoded, so we need to decode it
     let decoded = urlencoding::decode(document)

@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 `canido` (means "Can I do?") is a Rust CLI tool that displays IAM policies attached to AWS roles. It automatically detects the current IAM role from AWS credentials and shows both managed and inline policies with colored output or JSON format.
 
-Binary name in Cargo.toml is `iam-policy-viewer`, but the project/repository name is `canido`.
+Binary name in Cargo.toml is `canido`, but the project/repository name is `canido`.
 
 ## Build & Development Commands
 
