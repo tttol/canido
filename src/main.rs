@@ -13,9 +13,9 @@ struct Args {
     #[arg(short, long)]
     json: bool,
 
-    /// Specify a role name instead of detecting from current credentials
+    /// Show only policy names
     #[arg(short, long)]
-    role: Option<String>,
+    short: bool,
 }
 
 #[tokio::main]
@@ -28,18 +28,24 @@ async fn main() -> Result<()> {
     let iam_client = IamClient::new(&config);
 
     // Get the role name
-    let role_name = match args.role {
-        Some(name) => name,
-        None => get_current_role_name(&sts_client).await?,
-    };
+    let role_name = get_current_role_name(&sts_client).await?;
 
-    if args.json {
+    if args.short {
+        print_policies_short(&iam_client, &role_name).await?;
+    } else if args.json {
         print_policies_json(&iam_client, &role_name).await?;
     } else {
         print_policies_human(&iam_client, &role_name).await?;
     }
 
     Ok(())
+}
+
+/// Print section header with title
+fn print_section_header(title: &str) {
+    println!("{}", "==================================================".blue());
+    println!("{}", format!("  {}", title).blue().bold());
+    println!("{}", "==================================================".blue());
 }
 
 /// Extract the role name from current AWS credentials
@@ -70,10 +76,7 @@ async fn get_current_role_name(sts_client: &StsClient) -> Result<String> {
 
 /// Print policies in human-readable format
 async fn print_policies_human(iam_client: &IamClient, role_name: &str) -> Result<()> {
-    // Managed Policies
-    println!("{}", "==================================================".blue());
-    println!("{}", "  1. Managed Policies".blue().bold());
-    println!("{}", "==================================================".blue());
+    print_section_header("1. Managed Policies");
 
     let managed_policies = list_managed_policies(iam_client, role_name).await?;
 
@@ -96,11 +99,8 @@ async fn print_policies_human(iam_client: &IamClient, role_name: &str) -> Result
         }
     }
 
-    // Inline Policies
     println!();
-    println!("{}", "==================================================".blue());
-    println!("{}", "  2. Inline Policies".blue().bold());
-    println!("{}", "==================================================".blue());
+    print_section_header("2. Inline Policies");
 
     let inline_policies = list_inline_policies(iam_client, role_name).await?;
 
@@ -162,6 +162,35 @@ async fn print_policies_json(iam_client: &IamClient, role_name: &str) -> Result<
     Ok(())
 }
 
+/// Print only policy names
+async fn print_policies_short(iam_client: &IamClient, role_name: &str) -> Result<()> {
+    let managed_policy_names = list_managed_policy_names(iam_client, role_name).await?;
+    let inline_policies = list_inline_policies(iam_client, role_name).await?;
+
+    print_section_header("1. Managed Policies");
+
+    if managed_policy_names.is_empty() {
+        println!("{}", "(No managed policies attached)".dimmed());
+    } else {
+        for policy_name in &managed_policy_names {
+            println!("{}", policy_name);
+        }
+    }
+
+    println!();
+    print_section_header("2. Inline Policies");
+
+    if inline_policies.is_empty() {
+        println!("{}", "(No inline policies attached)".dimmed());
+    } else {
+        for policy_name in &inline_policies {
+            println!("{}", policy_name);
+        }
+    }
+
+    Ok(())
+}
+
 /// List all managed policies attached to a role
 async fn list_managed_policies(iam_client: &IamClient, role_name: &str) -> Result<Vec<String>> {
     let response = iam_client
@@ -178,6 +207,24 @@ async fn list_managed_policies(iam_client: &IamClient, role_name: &str) -> Resul
         .collect();
 
     Ok(policies)
+}
+
+/// List all managed policy names attached to a role
+async fn list_managed_policy_names(iam_client: &IamClient, role_name: &str) -> Result<Vec<String>> {
+    let response = iam_client
+        .list_attached_role_policies()
+        .role_name(role_name)
+        .send()
+        .await
+        .context("Failed to list managed policies")?;
+
+    let policy_names = response
+        .attached_policies()
+        .iter()
+        .filter_map(|p| p.policy_name().map(|s| s.to_string()))
+        .collect();
+
+    Ok(policy_names)
 }
 
 /// List all inline policies attached to a role

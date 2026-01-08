@@ -20,11 +20,11 @@ cargo build --release
 # Run the tool (detects current role from AWS credentials)
 cargo run
 
-# Run with specific role
-cargo run -- --role MyRoleName
-
 # Run with JSON output
 cargo run -- --json
+
+# Run with short output (policy names only)
+cargo run -- --short
 
 # Build for specific target (cross-compilation)
 cargo build --release --target aarch64-apple-darwin

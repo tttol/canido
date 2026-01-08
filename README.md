@@ -28,11 +28,11 @@ Download the binary for your platform from the [Releases](https://github.com/ttt
 # View policies for the current role
 canido
 
-# View policies for a specific role
-canido --role MyRoleName
-
 # Output in JSON format
 canido --json
+
+# Show only policy names
+canido --short
 
 # Show help
 canido --help
