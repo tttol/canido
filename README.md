@@ -18,12 +18,6 @@ brew tap tttol/tap
 brew install canido
 ```
 
-### Using Cargo (requires Rust)
-
-```bash
-cargo install canido
-```
-
 ### From GitHub Releases
 
 Download the binary for your platform from the [Releases](https://github.com/tttol/canido/releases) page.

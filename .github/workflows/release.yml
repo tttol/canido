@@ -12,20 +12,6 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  # Publish to crates.io
-  publish-crate:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Rust
-        uses: dtolnay/rust-toolchain@stable
-
-      - name: Publish to crates.io
-        env:
-          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
-        run: cargo publish --allow-dirty
-
   # Build binaries for multiple platforms
   build:
     strategy:
@@ -114,7 +100,7 @@ jobs:
         uses: mislav/bump-homebrew-formula-action@v3
         with:
           formula-name: canido
-          homebrew-tap: YOUR_USERNAME/homebrew-tap
-          download-url: https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/canido-x86_64-apple-darwin.tar.gz
+          homebrew-tap: tttol/homebrew-tap
+          download-url: https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/canido-aarch64-apple-darwin.tar.gz
         env:
           COMMITTER_TOKEN: ${{ secrets.TAP_GITHUB_TOKEN }}
