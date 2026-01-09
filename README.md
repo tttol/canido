@@ -1,6 +1,7 @@
 # canido
 
 A CLI tool to view IAM policies attached to your current AWS role. `canido` means "Can I do?".
+![demo](demo-canido.gif)
 
 ## Features
 
