@@ -1,10 +1,35 @@
 ![Static Badge](https://img.shields.io/badge/Rust-gray?logo=rust)
 ![Static Badge](https://img.shields.io/badge/LICENSE-MIT-blue)
 
-# canido
+# canido - Can I do?
 
 A CLI tool to view IAM policies attached to your current AWS role. `canido` means "Can I do?".
 ![demo](demo-canido.gif)
+
+## ✨ Highlights
+
+- 🦀 **Written in Rust** - Fast, safe, and reliable
+- 🔒 **Secure** - Read-only operations, no credentials storage
+- ⚡ **Fast** - Instant policy retrieval
+
+## 🤔 Why canido?
+
+**❌ Before:** Running multiple AWS CLI commands to check permissions...
+```bash
+aws sts get-caller-identity
+aws iam list-attached-role-policies --role-name MyRole
+aws iam get-policy-version --policy-arn ... --version-id ...
+# And then inline policies too...
+```
+
+**✅ After:** Just one command with `canido`!
+```bash
+canido
+```
+
+- No need to login to AWS Console and navigate through multiple screens
+- No more copying JSON and formatting in your editor
+- Quickly verify your current permissions for troubleshooting
 
 ## Features
 
@@ -13,9 +38,15 @@ A CLI tool to view IAM policies attached to your current AWS role. `canido` mean
 - 🎨 Colored output for better readability
 - 📄 JSON output option for scripting
 
+## 💡 Use Cases
+
+- 🔧 **During Development**: "Why is this API returning 403? Do I have the right permissions?" - Check instantly
+- 🚨 **Troubleshooting**: Quickly investigate permission issues
+- 📚 **Learning & Auditing**: Understand team members' role permissions
+
 ## Installation
 
-### Using Homebrew (macOS/Linux)
+### Using Homebrew (macOS)
 
 ```bash
 brew tap tttol/tap
@@ -43,6 +74,10 @@ canido --help
 ```
 
 ## Example Output
+
+<details>
+<summary>Click to see example output</summary>
+
 ```
 --- Checking AWS credentials ---
 Target role: AWSReservedSSO_CanidoInlinePolicy_f1d7ab46757a3473
@@ -114,6 +149,8 @@ Target role: AWSReservedSSO_CanidoInlinePolicy_f1d7ab46757a3473
 --------------------------------------------------
 ```
 
+</details>
+
 ## Prerequisites
 
 - AWS credentials configured (via `aws configure`, environment variables, or SSO)
@@ -124,6 +161,12 @@ Target role: AWSReservedSSO_CanidoInlinePolicy_f1d7ab46757a3473
   - `iam:GetPolicyVersion`
   - `iam:GetRolePolicy`
   - `sts:GetCallerIdentity`
+
+## 🌟 Community
+
+- ⭐ **Star this repo** if you find it useful!
+- 🐛 **[Report issues](https://github.com/tttol/canido/issues)** - Found a bug? Let us know
+- 🤝 **Contributing** - PRs are welcome!
 
 ## License
 
