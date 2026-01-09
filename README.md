@@ -43,31 +43,75 @@ canido --help
 ```
 
 ## Example Output
-
 ```
---- Checking credentials ---
-Target role: MyDeveloperRole
+--- Checking AWS credentials ---
+Target role: AWSReservedSSO_CanidoInlinePolicy_f1d7ab46757a3473
 
 ==================================================
   1. Managed Policies
 ==================================================
-[Policy ARN]: arn:aws:iam::123456789012:policy/MyPolicy
+[Policy ARN]: arn:aws:iam::aws:policy/IAMFullAccess
 {
-  "Version": "2012-10-17",
   "Statement": [
     {
+      "Action": [
+        "iam:*",
+        "organizations:DescribeAccount",
+        "organizations:DescribeOrganization",
+        "organizations:DescribeOrganizationalUnit",
+        "organizations:DescribePolicy",
+        "organizations:ListChildren",
+        "organizations:ListParents",
+        "organizations:ListPoliciesForTarget",
+        "organizations:ListRoots",
+        "organizations:ListPolicies",
+        "organizations:ListTargetsForPolicy"
+      ],
       "Effect": "Allow",
-      "Action": "s3:GetObject",
       "Resource": "*"
     }
-  ]
+  ],
+  "Version": "2012-10-17"
 }
 --------------------------------------------------
 
 ==================================================
   2. Inline Policies
 ==================================================
-(No inline policies attached)
+[Policy Name]: AwsSSOInlinePolicy
+{
+  "Statement": [
+    {
+      "Action": [
+        "s3:GetObject",
+        "s3:ListBucket"
+      ],
+      "Effect": "Allow",
+      "Resource": [
+        "*"
+      ],
+      "Sid": "Statement1"
+    },
+    {
+      "Action": [
+        "secretsmanager:DescribeSecret",
+        "secretsmanager:GetRandomPassword",
+        "secretsmanager:GetResourcePolicy",
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:ListSecretVersionIds",
+        "secretsmanager:ListSecrets",
+        "secretsmanager:BatchGetSecretValue"
+      ],
+      "Effect": "Allow",
+      "Resource": [
+        "*"
+      ],
+      "Sid": "Statement2"
+    }
+  ],
+  "Version": "2012-10-17"
+}
+--------------------------------------------------
 ```
 
 ## Prerequisites
