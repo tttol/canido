@@ -1,3 +1,6 @@
+![Static Badge](https://img.shields.io/badge/Rust-gray?logo=rust)
+![Static Badge](https://img.shields.io/badge/LICENSE-MIT-blue)
+
 # canido
 
 A CLI tool to view IAM policies attached to your current AWS role. `canido` means "Can I do?".
