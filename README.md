@@ -46,31 +46,19 @@ canido
 
 ## Installation
 
-### Using Homebrew (macOS)
-
+### macOS
 ```bash
 brew tap tttol/tap
 brew install canido
 ```
-
-### From GitHub Releases
-
-Download the binary for your platform from the [Releases](https://github.com/tttol/canido/releases) page.
-
-## Usage
-
+or install from tar.gz file following the same process as Linux installation flow.
+### Linux
 ```bash
-# View policies for the current role
-canido
-
-# Output in JSON format
-canido --json
-
-# Show only policy names
-canido --short
-
-# Show help
-canido --help
+# For x86_64 (Intel/AMD)
+curl -LO https://github.com/tttol/canido/releases/latest/download/canido-x86_64-unknown-linux-gnu.tar.gz
+tar xzf canido-x86_64-unknown-linux-gnu.tar.gz
+sudo mv canido /usr/local/bin/
+canido --version
 ```
 
 ## Example Output
