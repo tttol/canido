@@ -52,6 +52,7 @@ brew tap tttol/tap
 brew install canido
 ```
 or install from tar.gz file following the same process as Linux installation flow.
+
 ### Linux
 ```bash
 # For x86_64 (Intel/AMD)
@@ -60,6 +61,9 @@ tar xzf canido-x86_64-unknown-linux-gnu.tar.gz
 sudo mv canido /usr/local/bin/
 canido --version
 ```
+
+### Windows
+canido does not provide a Windows binary (cmd/PowerShell). Please use WSL2 instead.
 
 ## Example Output
 
